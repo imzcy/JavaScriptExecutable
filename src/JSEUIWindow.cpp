@@ -3,6 +3,7 @@
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QMenu>
+#include <QtWidgets/QLayout>
 
 #include "JSEUIMenu.h"
 #include "JSEUIWindow.h"
@@ -114,9 +115,20 @@ void JSEUIWindow::Set_width(Local<String> prop, Local<Value> value, const Proper
 
     JSEUIWindowImpl *windowImpl = GetImpl(info);
 
-    int width = value->Int32Value();
+    if (!windowImpl->isVisible())
+    {
+        windowImpl->layout()->update();
+    }
+    windowImpl->layout()->activate();
 
-    windowImpl->centralWidget()->resize(width, windowImpl->centralWidget()->size().height());
+    QSize &windowImplSize = windowImpl->size();
+    QSize &centralWidgetSize = windowImpl->centralWidget()->size();
+
+    int dWidth = windowImplSize.width() - centralWidgetSize.width();
+
+    int width = value->Int32Value() + dWidth;
+
+    windowImpl->resize(width, windowImpl->size().height());
 }
 
 void JSEUIWindow::Get_width(Local<String> prop, const PropertyCallbackInfo<Value> &info)
@@ -126,7 +138,7 @@ void JSEUIWindow::Get_width(Local<String> prop, const PropertyCallbackInfo<Value
 
     JSEUIWindowImpl *windowImpl = GetImpl(info);
 
-    info.GetReturnValue().Set(windowImpl->centralWidget()->size().width());
+    info.GetReturnValue().Set(windowImpl->size().width());
 }
 
 void JSEUIWindow::Set_height(Local<String> prop, Local<Value> value, const PropertyCallbackInfo<void> &info)
@@ -136,9 +148,20 @@ void JSEUIWindow::Set_height(Local<String> prop, Local<Value> value, const Prope
 
     JSEUIWindowImpl *windowImpl = GetImpl(info);
 
-    int height = value->Int32Value();
+    if (!windowImpl->isVisible())
+    {
+        windowImpl->layout()->update();
+    }
+    windowImpl->layout()->activate();
 
-    windowImpl->centralWidget()->resize(windowImpl->centralWidget()->size().width(), height);
+    QSize &windowImplSize = windowImpl->size();
+    QSize &centralWidgetSize = windowImpl->centralWidget()->size();
+
+    int dHeight = windowImplSize.height() - centralWidgetSize.height();
+
+    int height = value->Int32Value() + dHeight;
+
+    windowImpl->resize(windowImpl->size().width(), height);
 }
 
 void JSEUIWindow::Get_height(Local<String> prop, const PropertyCallbackInfo<Value> &info)
