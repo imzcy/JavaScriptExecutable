@@ -3,7 +3,7 @@ JavaScriptExecutable
 
 JavaScriptExecutable provides a environment for creating native GUI cross-platform JavaScript desktop application.
 
-<img src="doc/images/jse.png?raw=true" alt="Screen Shot" width="522px" height="350px" />
+<img src="doc/images/jse.png?raw=true" alt="Screen Shot" width="522px" />
 
 There is no stable version yet. Download latest development build at
 
