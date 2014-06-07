@@ -5,7 +5,7 @@ JavaScriptExecutable provides a environment for creating native GUI cross-platfo
 
 <img src="doc/images/jse.png?raw=true" alt="Screen Shot" width="522px" />
 
-There is no stable version yet. Download latest development build at
+There is no stable version yet. Download latest development build (Windows and Mac) at
 
 https://www.imzcy.com/jse/
 
@@ -17,6 +17,13 @@ How to build?
 3. Moc all `JSEUI*.h` (except `JSEUIBase.h` and `JSEUITpl.h`) using *Meta-Object Compiler* included in Qt.
 4. Compile and link.
 
+
+Mac
+
+1. `cd` to root directory.
+2. `mkdir build; cd build/`.
+3. `make all -f ../Makefile.mac`
+4. If error occurs, check your Qt and v8 installation directory and modify Makefile.mac accordingly.
  
 How to run?
 --------------------
