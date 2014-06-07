@@ -1677,7 +1677,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="JavaScript-Executable-(JSE)">JavaScript Executable (JSE)<a class="anchor-link" href="#JavaScript-Executable-(JSE)">&#182;</a></h1>
+#JavaScript Executable (JSE)
+<hr/>
 </div>
 </div>
 </div>
@@ -1687,7 +1688,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="JSEUIWindow">JSEUIWindow<a class="anchor-link" href="#JSEUIWindow">&#182;</a></h2>
+##Window()
+<hr/>
 </div>
 </div>
 </div>
@@ -1697,7 +1699,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong><em>Class Overview:</em></strong></p>
+<h3 id="class-overview">Class Overview:</h3>
 <p>JSEUIWindow class represents the basic building block for user interface components. A JSEUIWindow occupies a rectangular area on the screen and is responsible for drawing and event handling. JSEUIWindow is the base class for all window-like widgets, which includes window form, alert.etc. They are used to create UI container for buttons, text fields, etc.</p>
 </div>
 </div>
@@ -1707,53 +1709,166 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong><em>Summary:</em></strong> -- <strong><em>Field</em></strong></p>
-<p>public:</p>
-<p><strong><em>static void SetMethods(v8::Isolate </em>&amp;isolate, v8::Handle<v8::FunctionTemplate> &amp;tpl);</strong></p>
-<pre><code>--Initialize all the methods accessable through JSEUIWindow class. Which includes:
-
-Window Features:
-maximize -- maximize the window
-minimize -- minimize the window
-alert -- promopt alert over current window
-addMenu -- add menu for current window
-
-Accessors and mutators:
-width -- get/set the width of the window
-height -- get/set the height of the window
-visible -- get/set the visibility of the window
-title -- get/set the title of the window
-maximizeButton -- get/set maximize button for the window
-minimizeButton -- get/set minimize button for the window
-miniWidth -- get/set minimum width of the window
-maxWidth -- get/set maxmum width of the window
-miniHeight -- get/set minimum height of the window
-miniHeight -- get/set minimum height of the window</code></pre>
-<p><strong><em>static void SetEvents(JSEUIWindow </em>self, JSEUIWindowImpl <em>selfImpl);</em></strong></p>
-<pre><code>Attach the events to be handled by the JSEUIWindow</code></pre>
-<p>private:</p>
-<p><strong><em>static void Set_width(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &amp;info);</em></strong></p>
-<p><strong><em>static void Get_width(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &amp;info);</em></strong></p>
-<p><strong><em>static void Set_height(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &amp;info);</em></strong></p>
-<p><strong><em>static void Get_height(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &amp;info);</em></strong></p>
-<p><strong><em>static void Set_visible(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &amp;info);</em></strong></p>
-<p><strong><em>static void Get_visible(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &amp;info);</em></strong></p>
-<p><strong><em>static void Set_title(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &amp;info);</em></strong></p>
-<p><strong><em>static void Get_title(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &amp;info);</em></strong></p>
-<p><strong><em>static void Set_maximizeButton(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &amp;info);</em></strong></p>
-<p><strong><em>static void Get_maximizeButton(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &amp;info);</em></strong></p>
-<p><strong><em>static void Set_minimizeButton(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &amp;info);</em></strong></p>
-<p><strong><em>static void Get_minimizeButton(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &amp;info);</em></strong></p>
-<p><strong><em>static void Set_minimumWidth(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &amp;info);</em></strong></p>
-<p><strong><em>static void Get_minimumWidth(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &amp;info);</em></strong></p>
-<p><strong><em>static void Set_minimumHeight(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &amp;info);</em></strong></p>
-<p><strong><em>static void Get_minimumHeight(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &amp;info);</em></strong></p>
-<p><strong><em>static void Set_maximumWidth(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &amp;info);</em></strong></p>
-<p><strong><em>static void Get_maximumWidth(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &amp;info);</em></strong></p>
-<p><strong><em>static void Set_maximumHeight(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &amp;info);</em></strong></p>
-<p><strong><em>static void Get_maximumHeight(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &amp;info);</em></strong></p>
+<h3 id="constructor">Constructor:</h3>
+<p><strong><em>Window()</em></strong> &gt;Window() is the constructor of the Window class, which creates a new instance of window object. The default visibility of the new window object is set to False.</p>
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Summary:----Field"><strong><em>Summary:</em></strong> -- <strong><em>Field</em></strong><a class="anchor-link" href="#Summary:----Field">&#182;</a></h3>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong><em>maximize()</em></strong></p>
+<blockquote>
+<p>Maximize the window</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong><em>minimize()</em></strong></p>
+<blockquote>
+<p>Minimize the window</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong><em>alert()</em></strong></p>
+<blockquote>
+<p>Promopt alert over current window</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong><em>addMenu()</em></strong></p>
+<blockquote>
+<p>Add menu for current window</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Summary:--Property">Summary:--Property<a class="anchor-link" href="#Summary:--Property">&#182;</a></h3>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong><em>width</em></strong></p>
+<blockquote>
+<p>Get/set the width of the window</p>
+</blockquote>
+<p><strong><em>height</em></strong></p>
+<blockquote>
+<p>Get/set the height of the window</p>
+</blockquote>
+<p><strong><em>visible</em></strong></p>
+<blockquote>
+<p>Get/set the visibility of the window<br />Default: False</p>
+</blockquote>
+<p><strong><em>title</em></strong></p>
+<blockquote>
+<p>Get/set the title of the window</p>
+</blockquote>
+<p><strong><em>maximizeButton</em></strong></p>
+<blockquote>
+<p>Get/set maximize button for the window</p>
+</blockquote>
+<p><strong><em>minimizeButton</em></strong></p>
+<blockquote>
+<p>Get/set minimize button for the window</p>
+</blockquote>
+<p><strong><em>miniWidth</em></strong></p>
+<blockquote>
+<p>Get/set minimum width of the window</p>
+</blockquote>
+<p><strong><em>maxWidth</em></strong></p>
+<blockquote>
+<p>Get/set maxmum width of the window</p>
+</blockquote>
+<p><strong><em>miniHeight</em></strong></p>
+<blockquote>
+<p>Get/set minimum height of the window</p>
+</blockquote>
+<p><strong><em>miniHeight</em></strong></p>
+<blockquote>
+<p>Get/set minimum height of the window</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h3 id="demo">Demo:</h3>
+<h4 id="jseui-based-calculator">JSEUI based calculator</h4>
+<p>This simple calculator applicaiton is implemetned using JavaScriptExecutable library. It utilizes grid layout in an window object. Muiltiple views were added in to the window, like Button, TextView.<br />The window is resizable with menus which is able to alter the setting of the calculator.</p>
+<hr/>
+<p>Figure 1 - Simple calculator<br /><img src="https://raw.githubusercontent.com/imzcy/JavaScriptExecutable/master/doc/images/jse.png" width="50%" style="float: left;"/> <br/><br/></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+
+<p>To view source code, please visit our <a href="https://github.com/imzcy/JavaScriptExecutable">github</a>. All copy rights reserved.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
