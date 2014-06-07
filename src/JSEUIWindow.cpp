@@ -121,8 +121,8 @@ void JSEUIWindow::Set_width(Local<String> prop, Local<Value> value, const Proper
     }
     windowImpl->layout()->activate();
 
-    QSize &windowImplSize = windowImpl->size();
-    QSize &centralWidgetSize = windowImpl->centralWidget()->size();
+    QSize windowImplSize = windowImpl->size();
+    QSize centralWidgetSize = windowImpl->centralWidget()->size();
 
     int dWidth = windowImplSize.width() - centralWidgetSize.width();
 
@@ -154,8 +154,8 @@ void JSEUIWindow::Set_height(Local<String> prop, Local<Value> value, const Prope
     }
     windowImpl->layout()->activate();
 
-    QSize &windowImplSize = windowImpl->size();
-    QSize &centralWidgetSize = windowImpl->centralWidget()->size();
+    QSize windowImplSize = windowImpl->size();
+    QSize centralWidgetSize = windowImpl->centralWidget()->size();
 
     int dHeight = windowImplSize.height() - centralWidgetSize.height();
 
@@ -233,6 +233,8 @@ void JSEUIWindow::Set_maximizeButton(Local<String> prop, Local<Value> value, con
     JSEUIWindowImpl *windowImpl = GetImpl(info);
 
     bool maximizeButton = value->BooleanValue();
+
+    bool visible = windowImpl->isVisible();
     
     if (maximizeButton)
     {
@@ -242,6 +244,8 @@ void JSEUIWindow::Set_maximizeButton(Local<String> prop, Local<Value> value, con
     {
         windowImpl->setWindowFlags(windowImpl->windowFlags() & ~Qt::WindowMaximizeButtonHint);
     }
+
+    windowImpl->setVisible(visible);
 
     info.GetReturnValue().Set(*String::Utf8Value(value->ToString()));
 }
@@ -265,6 +269,8 @@ void JSEUIWindow::Set_minimizeButton(Local<String> prop, Local<Value> value, con
 
     bool maximizeButton = value->BooleanValue();
 
+    bool visible = windowImpl->isVisible();
+
     if (maximizeButton)
     {
         windowImpl->setWindowFlags(windowImpl->windowFlags() | Qt::WindowMinimizeButtonHint);
@@ -273,6 +279,8 @@ void JSEUIWindow::Set_minimizeButton(Local<String> prop, Local<Value> value, con
     {
         windowImpl->setWindowFlags(windowImpl->windowFlags() & ~Qt::WindowMinimizeButtonHint);
     }
+
+    windowImpl->setVisible(visible);
 
     info.GetReturnValue().Set(*String::Utf8Value(value->ToString()));
 }

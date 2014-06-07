@@ -14,7 +14,7 @@ public:
     ~JSEUIWindowImpl();
 
 protected:
-    virtual void JSEUIWindowImpl::resizeEvent(QResizeEvent *event);
+    virtual void resizeEvent(QResizeEvent *event);
 
 signals:
     void resized(void);

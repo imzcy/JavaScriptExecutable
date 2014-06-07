@@ -121,17 +121,17 @@ void JSEUILineEdit::Set_visible(Local<String> prop, Local<Value> value, const Pr
     Isolate *isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    JSEUILineEdit *lineEdit = static_cast<JSEUILineEdit *>(info.This()->GetAlignedPointerFromInternalField(0));
+    JSEUILineEditImpl *lineEditImpl = GetImpl(info);
 
     bool visible = value->BooleanValue();
 
     if (visible)
     {
-        lineEdit->pImpl->show();
+        lineEditImpl->show();
     }
     else
     {
-        lineEdit->pImpl->hide();
+        lineEditImpl->hide();
     }
 }
 
@@ -140,9 +140,9 @@ void JSEUILineEdit::Get_visible(Local<String> prop, const PropertyCallbackInfo<V
     Isolate *isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    JSEUILineEdit *lineEdit = static_cast<JSEUILineEdit *>(info.This()->GetAlignedPointerFromInternalField(0));
+    JSEUILineEditImpl *lineEditImpl = GetImpl(info);
 
-    info.GetReturnValue().Set(lineEdit->pImpl->isVisible());
+    info.GetReturnValue().Set(lineEditImpl->isVisible());
 }
 
 void JSEUILineEdit::Set_text(Local<String> prop, Local<Value> value, const PropertyCallbackInfo<void> &info)

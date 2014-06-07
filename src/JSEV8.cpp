@@ -9,6 +9,7 @@
 #include "JSEUIButton.h"
 #include "JSEUILabel.h"
 #include "JSEUILineEdit.h"
+#include "JSEUITextEdit.h"
 #include "JSEUIMenu.h"
 #include "JSEUIMenuLeaf.h"
 
@@ -47,16 +48,16 @@ void JSEV8::start(void)
     Context::Scope context_scope(context);
 
     auto argv = app->arguments();
-    /*
+
     if (argv.length() != 2)
     {
         QMessageBox::critical(nullptr, "Fatal Error", "No input file specified.", QMessageBox::Ok);
         app->exit(-1);
         return;
     }
-    */
-    //std::ifstream ifs(argv[1].toLocal8Bit().constData(), std::ios::in | std::ios::binary);
-    std::ifstream ifs("C:\\Users\\zcy\\Desktop\\jsx\\JavaScriptExecutable\\x64\\Debug\\app.js", std::ios::in | std::ios::binary);
+
+    std::ifstream ifs(argv[1].toLocal8Bit().constData(), std::ios::in | std::ios::binary);
+    //std::ifstream ifs("C:\\Users\\zcy\\Desktop\\jsx\\JavaScriptExecutable\\x64\\Debug\\app.js", std::ios::in | std::ios::binary);
 
     if (!ifs.good())
     {
@@ -85,6 +86,7 @@ void JSEV8::start(void)
     JSEUIButton::Initialize(objGlobal, "Button");
     JSEUILabel::Initialize(objGlobal, "Label");
     JSEUILineEdit::Initialize(objGlobal, "LineEdit");
+    JSEUITextEdit::Initialize(objGlobal, "TextEdit");
     JSEUIMenu::Initialize(objGlobal, "Menu");
     JSEUIMenuLeaf::Initialize(objGlobal, "MenuLeaf");
     

@@ -17,7 +17,7 @@ void FuncQuit(const FunctionCallbackInfo<Value> &args)
 
 void SetupProcessObject(JSEApplication *app, JSEV8 *v8app, Persistent<Object> &process, Isolate *isolate)
 {
-    QStringList &argv = app->arguments();
+    QStringList argv = app->arguments();
 
     HandleScope scope(isolate);
 

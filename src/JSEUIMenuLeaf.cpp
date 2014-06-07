@@ -138,7 +138,7 @@ JSEUIMenuLeaf *JSEUIMenuLeaf::GetInternal(Local<Object> &obj)
 }
 
 template <typename T>
-static JSEUIMenuLeafImpl *JSEUIMenuLeaf::GetImpl(T &info)
+JSEUIMenuLeafImpl *JSEUIMenuLeaf::GetImpl(T &info)
 {
     return static_cast<JSEUIMenuLeaf *>(info.This()->GetAlignedPointerFromInternalField(0))->pImpl;
 }

@@ -1,0 +1,95 @@
+MAKE_ROOT := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+CURRENT_DIR := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
+
+SRC_BASE = $(MAKE_ROOT)/src/
+THIRDPARTY_BASE = $(MAKE_ROOT)/thirdparty/
+QT_BASE = /Users/zcy/Qt5.3.0/5.3/clang_64/
+FRAMEWORK_BASE = -F$(QT_BASE)lib/
+
+CXX = clang++
+CXXFLAGS = -std=c++11 -Wall -stdlib=libc++
+LINKFLAGS = $(FRAMEWORK_BASE) -framework QtCore -framework QtWidgets -framework QtGui $(THIRDPARTY_BASE)v8/lib/libv8_base.x64.a $(THIRDPARTY_BASE)v8/lib/libv8_snapshot.a $(THIRDPARTY_BASE)v8/lib/libicui18n.a $(THIRDPARTY_BASE)v8/lib/libicuuc.a $(THIRDPARTY_BASE)v8/lib/libicudata.a
+
+MOC = $(QT_BASE)bin/moc
+MOCFLAGS = -DQT_NO_DEBUG -DNDEBUG -DUNICODE -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SCRIPT_LIB -DQT_DECLARATIVE_LIB -DQT_OPENGL_LIB
+INCLUDES = -I$(SRC_BASE) -I$(THIRDPARTY_BASE)qt53/include/ -I$(THIRDPARTY_BASE)v8/include/
+
+all: jse
+
+jse: JSEApplication JSEV8 JSEProcess JSEUIButton JSEUILabel JSEUILineEdit JSEUIMenu JSEUITextEdit JSEUIWindow JSEUIMenuLeaf Main
+	$(CXX) $(INCLUDES) $(CXXFLAGS) *.o $(LINKFLAGS) -o $(CURRENT_DIR)JavaScriptExecutable
+	
+Main:
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)Main.cpp -o $(CURRENT_DIR)Main.o
+	
+JSEApplication:
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEApplication.h -o $(CURRENT_DIR)moc_JSEApplication.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEApplication.cpp -o $(CURRENT_DIR)JSEApplication.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEApplication.cpp -o $(CURRENT_DIR)moc_JSEApplication.o
+	
+JSEV8:
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEV8.h -o $(CURRENT_DIR)moc_JSEV8.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEV8.cpp -o $(CURRENT_DIR)JSEV8.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEV8.cpp -o $(CURRENT_DIR)moc_JSEV8.o
+	
+JSEProcess:
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEProcess.cpp -o $(CURRENT_DIR)JSEProcess.o
+	
+JSEUIButton: JSEUIBase
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIButton.h -o $(CURRENT_DIR)moc_JSEUIButton.cpp
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIButtonImpl.h -o $(CURRENT_DIR)moc_JSEUIButtonImpl.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIButton.cpp -o $(CURRENT_DIR)JSEUIButton.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIButtonImpl.cpp -o $(CURRENT_DIR)JSEUIButtonImpl.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEUIButton.cpp -o $(CURRENT_DIR)moc_JSEUIButton.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEUIButtonImpl.cpp -o $(CURRENT_DIR)moc_JSEUIButtonImpl.o
+	
+JSEUILabel: JSEUIBase
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUILabel.h -o $(CURRENT_DIR)moc_JSEUILabel.cpp
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUILabelImpl.h -o $(CURRENT_DIR)moc_JSEUILabelImpl.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUILabel.cpp -o $(CURRENT_DIR)JSEUILabel.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUILabelImpl.cpp -o $(CURRENT_DIR)JSEUILabelImpl.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEUILabel.cpp -o $(CURRENT_DIR)moc_JSEUILabel.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEUILabelImpl.cpp -o $(CURRENT_DIR)moc_JSEUILabelImpl.o
+	
+JSEUILineEdit: JSEUIBase
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUILineEdit.h -o $(CURRENT_DIR)moc_JSEUILineEdit.cpp
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUILineEditImpl.h -o $(CURRENT_DIR)moc_JSEUILineEditImpl.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUILineEdit.cpp -o $(CURRENT_DIR)JSEUILineEdit.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUILineEditImpl.cpp -o $(CURRENT_DIR)JSEUILineEditImpl.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEUILineEdit.cpp -o $(CURRENT_DIR)moc_JSEUILineEdit.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEUILineEditImpl.cpp -o $(CURRENT_DIR)moc_JSEUILineEditImpl.o
+	
+JSEUIMenu: JSEUIBase
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIMenu.h -o $(CURRENT_DIR)moc_JSEUIMenu.cpp
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIMenuImpl.h -o $(CURRENT_DIR)moc_JSEUIMenuImpl.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIMenu.cpp -o $(CURRENT_DIR)JSEUIMenu.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIMenuImpl.cpp -o $(CURRENT_DIR)JSEUIMenuImpl.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEUIMenu.cpp -o $(CURRENT_DIR)moc_JSEUIMenu.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEUIMenuImpl.cpp -o $(CURRENT_DIR)moc_JSEUIMenuImpl.o
+	
+JSEUITextEdit: JSEUIBase
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUITextEdit.h -o $(CURRENT_DIR)moc_JSEUITextEdit.cpp
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUITextEditImpl.h -o $(CURRENT_DIR)moc_JSEUITextEditImpl.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUITextEdit.cpp -o $(CURRENT_DIR)JSEUITextEdit.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUITextEditImpl.cpp -o $(CURRENT_DIR)JSEUITextEditImpl.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEUITextEdit.cpp -o $(CURRENT_DIR)moc_JSEUITextEdit.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEUITextEditImpl.cpp -o $(CURRENT_DIR)moc_JSEUITextEditImpl.o
+	
+JSEUIWindow: JSEUIBase
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIWindow.h -o $(CURRENT_DIR)moc_JSEUIWindow.cpp
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIWindowImpl.h -o $(CURRENT_DIR)moc_JSEUIWindowImpl.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIWindow.cpp -o $(CURRENT_DIR)JSEUIWindow.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIWindowImpl.cpp -o $(CURRENT_DIR)JSEUIWindowImpl.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEUIWindow.cpp -o $(CURRENT_DIR)moc_JSEUIWindow.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEUIWindowImpl.cpp -o $(CURRENT_DIR)moc_JSEUIWindowImpl.o
+	
+JSEUIMenuLeaf:
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIMenuLeaf.h -o $(CURRENT_DIR)moc_JSEUIMenuLeaf.cpp
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIMenuLeafImpl.h -o $(CURRENT_DIR)moc_JSEUIMenuLeafImpl.cpp
+	$(CXX) $(INCLUDES) $(INCLUDES) -c $(CXXFLAGS) $(SRC_BASE)JSEUIMenuLeaf.cpp -o $(CURRENT_DIR)JSEUIMenuLeaf.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIMenuLeafImpl.cpp -o $(CURRENT_DIR)JSEUIMenuLeafImpl.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEUIMenuLeaf.cpp -o $(CURRENT_DIR)moc_JSEUIMenuLeaf.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(CURRENT_DIR)moc_JSEUIMenuLeafImpl.cpp -o $(CURRENT_DIR)moc_JSEUIMenuLeafImpl.o
+
+JSEUIBase:
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIBase.cpp -o $(CURRENT_DIR)JSEUIBase.o
