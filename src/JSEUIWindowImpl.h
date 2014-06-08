@@ -15,9 +15,12 @@ public:
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event);
 
 signals:
     void resized(void);
+    void mouseMove(int left, int top);
+    void mouseOut(void);
 
 };
 

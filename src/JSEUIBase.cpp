@@ -127,6 +127,8 @@ void JSEUIBase::Proto_appendTo(const FunctionCallbackInfo<Value> &args)
     {
         widget->pImpl->setParent(parent->pImpl);
     }
+
+    widget->pImpl->setVisible(true);
         
     args.GetReturnValue().Set(Boolean::New(isolate, true));
 }

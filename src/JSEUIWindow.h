@@ -25,6 +25,14 @@ private:
     static void Get_width(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &info);
     static void Set_height(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &info);
     static void Get_height(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &info);
+    static void Set_left(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &info);
+    static void Get_left(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &info);
+    static void Set_innerWidth(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &info);
+    static void Get_innerWidth(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &info);
+    static void Set_innerHeight(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &info);
+    static void Get_innerHeight(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &info);
+    static void Set_top(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &info);
+    static void Get_top(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &info);
     static void Set_visible(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &info);
     static void Get_visible(v8::Local<v8::String> prop, const v8::PropertyCallbackInfo<v8::Value> &info);
     static void Set_title(v8::Local<v8::String> prop, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &info);
@@ -44,6 +52,8 @@ private:
 
 public slots:
     void On_resize(void);
+    void On_mousemove(int left, int top);
+    void On_mouseout(void);
 };
 
 }}

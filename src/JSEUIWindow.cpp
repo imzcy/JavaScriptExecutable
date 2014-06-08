@@ -23,6 +23,10 @@ void JSEUIWindow::SetMethods(v8::Isolate *&isolate, v8::Handle<v8::FunctionTempl
 
     JSE_UI_SET_ACCESSOR(tpl, "width", Get_width, Set_width);
     JSE_UI_SET_ACCESSOR(tpl, "height", Get_height, Set_height);
+    JSE_UI_SET_ACCESSOR(tpl, "left", Get_left, Set_left);
+    JSE_UI_SET_ACCESSOR(tpl, "top", Get_top, Set_top);
+    JSE_UI_SET_ACCESSOR(tpl, "innerWidth", Get_innerWidth, Set_innerWidth);
+    JSE_UI_SET_ACCESSOR(tpl, "innerHeight", Get_innerHeight, Set_innerHeight);
     JSE_UI_SET_ACCESSOR(tpl, "visible", Get_visible, Set_visible);
     JSE_UI_SET_ACCESSOR(tpl, "title", Get_title, Set_title);
     JSE_UI_SET_ACCESSOR(tpl, "maximizeButton", Get_maximizeButton, Set_maximizeButton);
@@ -36,6 +40,8 @@ void JSEUIWindow::SetMethods(v8::Isolate *&isolate, v8::Handle<v8::FunctionTempl
 void JSEUIWindow::SetEvents(JSEUIWindow *self, JSEUIWindowImpl *selfImpl)
 {
     JSE_UI_SET_EVENTS(self, On_resize(), selfImpl, resized());
+    JSE_UI_SET_EVENTS(self, On_mousemove(int, int), selfImpl, mouseMove(int, int));
+    JSE_UI_SET_EVENTS(self, On_mouseout(void), selfImpl, mouseOut(void));
 }
 
 void JSEUIWindow::Proto_maximize(const v8::FunctionCallbackInfo<v8::Value> &info)
@@ -115,6 +121,72 @@ void JSEUIWindow::Set_width(Local<String> prop, Local<Value> value, const Proper
 
     JSEUIWindowImpl *windowImpl = GetImpl(info);
 
+    int width = value->Int32Value();
+
+    windowImpl->resize(width, windowImpl->size().height());
+}
+
+void JSEUIWindow::Get_width(Local<String> prop, const PropertyCallbackInfo<Value> &info)
+{
+    Isolate *isolate = Isolate::GetCurrent();
+    HandleScope scope(isolate);
+
+    JSEUIWindowImpl *windowImpl = GetImpl(info);
+
+    info.GetReturnValue().Set(windowImpl->size().width());
+}
+
+void JSEUIWindow::Set_height(Local<String> prop, Local<Value> value, const PropertyCallbackInfo<void> &info)
+{
+    Isolate *isolate = Isolate::GetCurrent();
+    HandleScope scope(isolate);
+
+    JSEUIWindowImpl *windowImpl = GetImpl(info);
+
+    int height = value->Int32Value();
+
+    windowImpl->resize(windowImpl->size().width(), height);
+}
+
+void JSEUIWindow::Get_height(Local<String> prop, const PropertyCallbackInfo<Value> &info)
+{
+    Isolate *isolate = Isolate::GetCurrent();
+    HandleScope scope(isolate);
+
+    JSEUIWindowImpl *windowImpl = GetImpl(info);
+
+    info.GetReturnValue().Set(windowImpl->size().height());
+}
+
+void JSEUIWindow::Set_left(Local<String> prop, Local<Value> value, const PropertyCallbackInfo<void> &info)
+{
+    Isolate *isolate = Isolate::GetCurrent();
+    HandleScope scope(isolate);
+
+    JSEUIWindowImpl *windowImpl = GetImpl(info);
+
+    int left = value->Int32Value();
+
+    windowImpl->move(left, windowImpl->pos().y());
+}
+
+void JSEUIWindow::Get_left(Local<String> prop, const PropertyCallbackInfo<Value> &info)
+{
+    Isolate *isolate = Isolate::GetCurrent();
+    HandleScope scope(isolate);
+
+    JSEUIWindowImpl *windowImpl = GetImpl(info);
+
+    info.GetReturnValue().Set(Integer::New(isolate, windowImpl->pos().x()));
+}
+
+void JSEUIWindow::Set_innerWidth(Local<String> prop, Local<Value> value, const PropertyCallbackInfo<void> &info)
+{
+    Isolate *isolate = Isolate::GetCurrent();
+    HandleScope scope(isolate);
+
+    JSEUIWindowImpl *windowImpl = GetImpl(info);
+
     if (!windowImpl->isVisible())
     {
         windowImpl->layout()->update();
@@ -131,17 +203,17 @@ void JSEUIWindow::Set_width(Local<String> prop, Local<Value> value, const Proper
     windowImpl->resize(width, windowImpl->size().height());
 }
 
-void JSEUIWindow::Get_width(Local<String> prop, const PropertyCallbackInfo<Value> &info)
+void JSEUIWindow::Get_innerWidth(Local<String> prop, const PropertyCallbackInfo<Value> &info)
 {
     Isolate *isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
     JSEUIWindowImpl *windowImpl = GetImpl(info);
 
-    info.GetReturnValue().Set(windowImpl->size().width());
+    info.GetReturnValue().Set(windowImpl->centralWidget()->size().width());
 }
 
-void JSEUIWindow::Set_height(Local<String> prop, Local<Value> value, const PropertyCallbackInfo<void> &info)
+void JSEUIWindow::Set_innerHeight(Local<String> prop, Local<Value> value, const PropertyCallbackInfo<void> &info)
 {
     Isolate *isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
@@ -164,7 +236,7 @@ void JSEUIWindow::Set_height(Local<String> prop, Local<Value> value, const Prope
     windowImpl->resize(windowImpl->size().width(), height);
 }
 
-void JSEUIWindow::Get_height(Local<String> prop, const PropertyCallbackInfo<Value> &info)
+void JSEUIWindow::Get_innerHeight(Local<String> prop, const PropertyCallbackInfo<Value> &info)
 {
     Isolate *isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
@@ -172,6 +244,28 @@ void JSEUIWindow::Get_height(Local<String> prop, const PropertyCallbackInfo<Valu
     JSEUIWindowImpl *windowImpl = GetImpl(info);
 
     info.GetReturnValue().Set(windowImpl->centralWidget()->size().height());
+}
+
+void JSEUIWindow::Set_top(Local<String> prop, Local<Value> value, const PropertyCallbackInfo<void> &info)
+{
+    Isolate *isolate = Isolate::GetCurrent();
+    HandleScope scope(isolate);
+
+    JSEUIWindowImpl *windowImpl = GetImpl(info);
+
+    int top = value->Int32Value();
+
+    windowImpl->move(windowImpl->pos().x(), top);
+}
+
+void JSEUIWindow::Get_top(Local<String> prop, const PropertyCallbackInfo<Value> &info)
+{
+    Isolate *isolate = Isolate::GetCurrent();
+    HandleScope scope(isolate);
+
+    JSEUIWindowImpl *windowImpl = GetImpl(info);
+
+    info.GetReturnValue().Set(Integer::New(isolate, windowImpl->pos().y()));
 }
 
 void JSEUIWindow::Set_visible(Local<String> prop, Local<Value> value, const PropertyCallbackInfo<void> &info)
@@ -390,6 +484,28 @@ void JSEUIWindow::On_resize(void)
     HandleScope scope(isolate);
 
     Invoke(this, "resize", 0, nullptr);
+}
+
+void JSEUIWindow::On_mousemove(int left, int top)
+{
+    Isolate *isolate = Isolate::GetCurrent();
+    Locker locker(isolate);
+    HandleScope scope(isolate);
+
+    Local<Value> val[2];
+    val[0] = Integer::New(isolate, left);
+    val[1] = Integer::New(isolate, top);
+
+    Invoke(this, "mousemove", 2, val);
+}
+
+void JSEUIWindow::On_mouseout(void)
+{
+    Isolate *isolate = Isolate::GetCurrent();
+    Locker locker(isolate);
+    HandleScope scope(isolate);
+
+    Invoke(this, "mouseout", 0, nullptr);
 }
 
 }}

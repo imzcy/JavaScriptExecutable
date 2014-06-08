@@ -47,6 +47,7 @@ using namespace JSE;
 int main(int argc, char *argv[])
 {
     JSEApplication app(argc, argv);
+    ::app = &app;
 
     JSEV8 v8app(app);
 

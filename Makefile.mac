@@ -17,6 +17,7 @@ INCLUDES = -I$(SRC_BASE) -I$(THIRDPARTY_BASE)qt53/include/ -I$(THIRDPARTY_BASE)v
 all: jse
 
 jse: JSEApplication JSEV8 JSEProcess JSEUIButton JSEUILabel JSEUILineEdit JSEUIMenu JSEUITextEdit JSEUIWindow JSEUIMenuLeaf Main
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSE.cpp -o $(CURRENT_DIR)JSE.o
 	$(CXX) $(INCLUDES) $(CXXFLAGS) *.o $(LINKFLAGS) -o $(CURRENT_DIR)JavaScriptExecutable
 	
 Main:

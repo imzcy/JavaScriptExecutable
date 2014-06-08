@@ -2,8 +2,11 @@
 #define _JSE_H_
 
 #include <v8.h>
+#include <QtWidgets/QApplication>
 
 namespace JSE {
+
+extern QApplication *app;
 
 template <typename TypeName>
 inline void JSE_SET_METHOD(const TypeName &recv, const char *name, v8::FunctionCallback callback)
@@ -33,8 +36,6 @@ inline void JSE_SET_PROTOTYPE_METHOD(v8::Handle<v8::FunctionTemplate> recv,
 #define JSE_UI_SET_ACCESSOR(tpl, str, get, set) (tpl)->PrototypeTemplate()->SetAccessor(String::NewFromUtf8(isolate, str), get, set)
 
 #define JSE_UI_SET_EVENTS(self, slot, impl, signal) connect(impl, SIGNAL(signal), self, SLOT(slot))
-
-void FuncTest(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 }
 
