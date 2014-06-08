@@ -250,7 +250,9 @@ void JSEUIMenuLeaf::Get_text(Local<String> prop, const PropertyCallbackInfo<Valu
 
     JSEUIMenuLeafImpl *menuLeafImpl = GetImpl(info);
 
-    info.GetReturnValue().Set(String::NewFromUtf8(isolate, menuLeafImpl->text().toLocal8Bit().constData()));
+    std::string menuLeafText = menuLeafImpl->text().toStdString();
+
+    info.GetReturnValue().Set(String::NewFromUtf8(isolate, menuLeafText.c_str()));
 }
 
 void JSEUIMenuLeaf::Set_visible(Local<String> prop, Local<Value> value, const PropertyCallbackInfo<void> &info)

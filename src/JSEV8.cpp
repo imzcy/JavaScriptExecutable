@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <QtWidgets/QMessageBox>
+#include <QtWidgets/QFileDialog>
 
 #include "JSEProcess.h"
 
@@ -49,14 +50,24 @@ void JSEV8::start(void)
 
     auto argv = app->arguments();
 
+    std::string filename;
+
     if (argv.length() != 2)
     {
-        QMessageBox::critical(nullptr, "Fatal Error", "No input file specified.", QMessageBox::Ok);
-        app->exit(-1);
-        return;
+        QString fileName = QFileDialog::getOpenFileName(nullptr, "Open File", "", "JavaScript Executable (*.*)");
+        if (fileName.length() == 0)
+        {
+            app->exit(-1);
+            return;
+        }
+        filename = fileName.toStdString();
+    }
+    else
+    {
+        filename = argv[1].toStdString();
     }
 
-    std::ifstream ifs(argv[1].toLocal8Bit().constData(), std::ios::in | std::ios::binary);
+    std::ifstream ifs(filename, std::ios::in | std::ios::binary);
     //std::ifstream ifs("C:\\Users\\zcy\\Desktop\\jsx\\JavaScriptExecutable\\x64\\Debug\\app.js", std::ios::in | std::ios::binary);
 
     if (!ifs.good())

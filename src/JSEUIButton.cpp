@@ -175,7 +175,9 @@ void JSEUIButton::Get_text(Local<String> prop, const PropertyCallbackInfo<Value>
 
     JSEUIButtonImpl *buttonImpl = GetImpl(info);
 
-    info.GetReturnValue().Set(String::NewFromUtf8(isolate, buttonImpl->text().toLocal8Bit().constData()));
+    std::string btnText = buttonImpl->text().toStdString();
+
+    info.GetReturnValue().Set(String::NewFromUtf8(isolate, btnText.c_str()));
 }
 
 void JSEUIButton::On_click(void)

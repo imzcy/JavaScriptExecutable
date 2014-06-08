@@ -123,7 +123,9 @@ void JSEUIMenu::Get_text(Local<String> prop, const PropertyCallbackInfo<Value> &
 
     JSEUIMenuImpl *menuImpl = GetImpl(info);
 
-    info.GetReturnValue().Set(String::NewFromUtf8(isolate, menuImpl->title().toLocal8Bit().constData()));
+    std::string menuText = menuImpl->title().toStdString();
+
+    info.GetReturnValue().Set(String::NewFromUtf8(isolate, menuText.c_str()));
 }
 
 void JSEUIMenu::Set_visible(Local<String> prop, Local<Value> value, const PropertyCallbackInfo<void> &info)

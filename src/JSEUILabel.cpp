@@ -162,7 +162,9 @@ void JSEUILabel::Get_text(Local<String> prop, const PropertyCallbackInfo<Value> 
 
     JSEUILabelImpl *labelImpl = GetImpl(info);
 
-    info.GetReturnValue().Set(String::NewFromUtf8(isolate, labelImpl->text().toLocal8Bit().constData()));
+    std::string labelText = labelImpl->text().toStdString();
+
+    info.GetReturnValue().Set(String::NewFromUtf8(isolate, labelText.c_str()));
 }
 
 }}

@@ -162,7 +162,9 @@ void JSEUILineEdit::Get_text(Local<String> prop, const PropertyCallbackInfo<Valu
 
     JSEUILineEditImpl *lineEditImpl = GetImpl(info);
 
-    info.GetReturnValue().Set(String::NewFromUtf8(isolate, lineEditImpl->text().toLocal8Bit().constData()));
+    std::string lineEditText = lineEditImpl->text().toStdString();
+
+    info.GetReturnValue().Set(String::NewFromUtf8(isolate, lineEditText.c_str()));
 }
 
 void JSEUILineEdit::Set_disabled(Local<String> prop, Local<Value> value, const PropertyCallbackInfo<void> &info)
