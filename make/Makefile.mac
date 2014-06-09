@@ -1,0 +1,115 @@
+MAKE_ROOT := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+BUILD_DIR := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))build/
+QT_DIR = ~/Qt5.3.0/5.3/clang_64/
+EXE_NAME = JavaScriptExecutable
+
+SRC_BASE = $(MAKE_ROOT)/src/
+TEST_BASE = $(MAKE_ROOT)/test/
+THIRDPARTY_BASE = $(MAKE_ROOT)/thirdparty/
+QT_BASE := `cd $(QT_DIR); pwd`/
+FRAMEWORK_BASE = -F$(QT_BASE)lib/
+
+CXX = clang++
+CXXFLAGS = -std=c++11 -Wall -stdlib=libc++
+LINKFLAGS = $(FRAMEWORK_BASE) -framework QtCore -framework QtWidgets -framework QtGui $(THIRDPARTY_BASE)v8/lib/libv8_base.x64.a $(THIRDPARTY_BASE)v8/lib/libv8_snapshot.a $(THIRDPARTY_BASE)v8/lib/libicui18n.a $(THIRDPARTY_BASE)v8/lib/libicuuc.a $(THIRDPARTY_BASE)v8/lib/libicudata.a
+
+MOC = $(QT_BASE)bin/moc
+MOCFLAGS = -DQT_NO_DEBUG -DNDEBUG -DUNICODE -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SCRIPT_LIB -DQT_DECLARATIVE_LIB -DQT_OPENGL_LIB
+INCLUDES = -I$(SRC_BASE) -I$(THIRDPARTY_BASE)qt53/include/ -I$(THIRDPARTY_BASE)v8/include/
+
+all: jse
+
+jse: JSEEvnSetup JSEApplication JSEV8 JSEProcess JSEUIButton JSEUILabel JSEUILineEdit JSEUIMenu JSEUITextEdit JSEUIWindow JSEUIMenuLeaf Main
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSE.cpp -o $(BUILD_DIR)JSE.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $(BUILD_DIR)*.o $(LINKFLAGS) -o $(BUILD_DIR)$(EXE_NAME)
+	mkdir -p $(BUILD_DIR)$(EXE_NAME).app/Contents/MacOS/
+	cp $(BUILD_DIR)$(EXE_NAME) $(BUILD_DIR)$(EXE_NAME).app/Contents/MacOS/
+	$(QT_BASE)bin/macdeployqt $(BUILD_DIR)$(EXE_NAME).app
+	cp -R $(BUILD_DIR)$(EXE_NAME).app ./
+	
+JSEEvnSetup:
+	mkdir -p $(BUILD_DIR)
+	
+Main:
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)Main.cpp -o $(BUILD_DIR)Main.o
+	
+JSEApplication:
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEApplication.h -o $(BUILD_DIR)moc_JSEApplication.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEApplication.cpp -o $(BUILD_DIR)JSEApplication.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEApplication.cpp -o $(BUILD_DIR)moc_JSEApplication.o
+	
+JSEV8:
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEV8.h -o $(BUILD_DIR)moc_JSEV8.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEV8.cpp -o $(BUILD_DIR)JSEV8.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEV8.cpp -o $(BUILD_DIR)moc_JSEV8.o
+	
+JSEProcess:
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEProcess.cpp -o $(BUILD_DIR)JSEProcess.o
+	
+JSEUIButton: JSEUIBase
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIButton.h -o $(BUILD_DIR)moc_JSEUIButton.cpp
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIButtonImpl.h -o $(BUILD_DIR)moc_JSEUIButtonImpl.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIButton.cpp -o $(BUILD_DIR)JSEUIButton.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIButtonImpl.cpp -o $(BUILD_DIR)JSEUIButtonImpl.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEUIButton.cpp -o $(BUILD_DIR)moc_JSEUIButton.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEUIButtonImpl.cpp -o $(BUILD_DIR)moc_JSEUIButtonImpl.o
+	
+JSEUILabel: JSEUIBase
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUILabel.h -o $(BUILD_DIR)moc_JSEUILabel.cpp
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUILabelImpl.h -o $(BUILD_DIR)moc_JSEUILabelImpl.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUILabel.cpp -o $(BUILD_DIR)JSEUILabel.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUILabelImpl.cpp -o $(BUILD_DIR)JSEUILabelImpl.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEUILabel.cpp -o $(BUILD_DIR)moc_JSEUILabel.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEUILabelImpl.cpp -o $(BUILD_DIR)moc_JSEUILabelImpl.o
+	
+JSEUILineEdit: JSEUIBase
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUILineEdit.h -o $(BUILD_DIR)moc_JSEUILineEdit.cpp
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUILineEditImpl.h -o $(BUILD_DIR)moc_JSEUILineEditImpl.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUILineEdit.cpp -o $(BUILD_DIR)JSEUILineEdit.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUILineEditImpl.cpp -o $(BUILD_DIR)JSEUILineEditImpl.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEUILineEdit.cpp -o $(BUILD_DIR)moc_JSEUILineEdit.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEUILineEditImpl.cpp -o $(BUILD_DIR)moc_JSEUILineEditImpl.o
+	
+JSEUIMenu: JSEUIBase
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIMenu.h -o $(BUILD_DIR)moc_JSEUIMenu.cpp
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIMenuImpl.h -o $(BUILD_DIR)moc_JSEUIMenuImpl.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIMenu.cpp -o $(BUILD_DIR)JSEUIMenu.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIMenuImpl.cpp -o $(BUILD_DIR)JSEUIMenuImpl.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEUIMenu.cpp -o $(BUILD_DIR)moc_JSEUIMenu.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEUIMenuImpl.cpp -o $(BUILD_DIR)moc_JSEUIMenuImpl.o
+	
+JSEUITextEdit: JSEUIBase
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUITextEdit.h -o $(BUILD_DIR)moc_JSEUITextEdit.cpp
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUITextEditImpl.h -o $(BUILD_DIR)moc_JSEUITextEditImpl.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUITextEdit.cpp -o $(BUILD_DIR)JSEUITextEdit.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUITextEditImpl.cpp -o $(BUILD_DIR)JSEUITextEditImpl.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEUITextEdit.cpp -o $(BUILD_DIR)moc_JSEUITextEdit.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEUITextEditImpl.cpp -o $(BUILD_DIR)moc_JSEUITextEditImpl.o
+	
+JSEUIWindow: JSEUIBase
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIWindow.h -o $(BUILD_DIR)moc_JSEUIWindow.cpp
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIWindowImpl.h -o $(BUILD_DIR)moc_JSEUIWindowImpl.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIWindow.cpp -o $(BUILD_DIR)JSEUIWindow.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIWindowImpl.cpp -o $(BUILD_DIR)JSEUIWindowImpl.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEUIWindow.cpp -o $(BUILD_DIR)moc_JSEUIWindow.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEUIWindowImpl.cpp -o $(BUILD_DIR)moc_JSEUIWindowImpl.o
+	
+JSEUIMenuLeaf:
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIMenuLeaf.h -o $(BUILD_DIR)moc_JSEUIMenuLeaf.cpp
+	$(MOC) $(INCLUDES) $(MOCFLAGS) $(SRC_BASE)JSEUIMenuLeafImpl.h -o $(BUILD_DIR)moc_JSEUIMenuLeafImpl.cpp
+	$(CXX) $(INCLUDES) $(INCLUDES) -c $(CXXFLAGS) $(SRC_BASE)JSEUIMenuLeaf.cpp -o $(BUILD_DIR)JSEUIMenuLeaf.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIMenuLeafImpl.cpp -o $(BUILD_DIR)JSEUIMenuLeafImpl.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEUIMenuLeaf.cpp -o $(BUILD_DIR)moc_JSEUIMenuLeaf.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(BUILD_DIR)moc_JSEUIMenuLeafImpl.cpp -o $(BUILD_DIR)moc_JSEUIMenuLeafImpl.o
+
+JSEUIBase:
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSEUIBase.cpp -o $(BUILD_DIR)JSEUIBase.o
+	
+clean:
+	rm -rf $(BUILD_DIR)
+	
+pack:
+	mkdir -p $(BUILD_DIR)/jse/
+	cp -R $(BUILD_DIR)$(EXE_NAME).app $(BUILD_DIR)/jse/$(EXE_NAME).app
+	cp $(TEST_BASE)example_app.js $(BUILD_DIR)/jse/
+	hdiutil create jse.dmg -volname "$(EXE_NAME)" -fs HFS+ -srcfolder "$(BUILD_DIR)/jse/"

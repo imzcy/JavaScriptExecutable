@@ -1,0 +1,11 @@
+#!/bin/sh
+
+case "$OSTYPE" in
+	darwin*)
+		cp make/Makefile.mac ./Makefile
+		;;
+
+	*)
+		echo "Makefile for current OS is not available yet."
+		;;
+esac
