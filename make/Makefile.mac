@@ -1,6 +1,6 @@
 MAKE_ROOT := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 BUILD_DIR := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))build/
-QT_DIR = ~/Qt5.3.0/5.3/clang_64/
+QT_DIR ?= ~/Qt5.3.0/5.3/clang_64/
 EXE_NAME = JavaScriptExecutable
 
 SRC_BASE = $(MAKE_ROOT)/src/
@@ -11,13 +11,20 @@ FRAMEWORK_BASE = -F$(QT_BASE)lib/
 
 CXX = clang++
 CXXFLAGS = -std=c++11 -Wall -stdlib=libc++
-LINKFLAGS = $(FRAMEWORK_BASE) -framework QtCore -framework QtWidgets -framework QtGui $(THIRDPARTY_BASE)v8/lib/libv8_base.x64.a $(THIRDPARTY_BASE)v8/lib/libv8_snapshot.a $(THIRDPARTY_BASE)v8/lib/libicui18n.a $(THIRDPARTY_BASE)v8/lib/libicuuc.a $(THIRDPARTY_BASE)v8/lib/libicudata.a
+LINKFLAGS = $(FRAMEWORK_BASE) -framework QtCore -framework QtWidgets -framework QtGui $(THIRDPARTY_BASE)v8/lib/x64.release/libv8_base.x64.a $(THIRDPARTY_BASE)v8/lib/x64.release/libv8_snapshot.a $(THIRDPARTY_BASE)v8/lib/x64.release/libicui18n.a $(THIRDPARTY_BASE)v8/lib/x64.release/libicuuc.a $(THIRDPARTY_BASE)v8/lib/x64.release/libicudata.a
 
 MOC = $(QT_BASE)bin/moc
 MOCFLAGS = -DQT_NO_DEBUG -DNDEBUG -DUNICODE -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SCRIPT_LIB -DQT_DECLARATIVE_LIB -DQT_OPENGL_LIB
 INCLUDES = -I$(SRC_BASE) -I$(THIRDPARTY_BASE)qt53/include/ -I$(THIRDPARTY_BASE)v8/include/
 
-all: jse
+all: qt v8 jse
+	
+qt:
+	test -s $(QT_DIR) || { echo "Please set QT_DIR before make. e.g. export QT_DIR=\"/path/to/qt/.\""; exit 1; }
+	
+v8:
+	cd $(THIRDPARTY_BASE)v8/src/; make dependencies;
+	cd $(THIRDPARTY_BASE)v8/src/; CXX="clang++ -std=c++11 -stdlib=libc++" LINK="clang++ -std=c++11 -stdlib=libc++" GYP_DEFINES="clang=1 mac_deployment_target=10.8" OUTDIR="../lib/" make x64.release;
 
 jse: JSEEvnSetup JSEApplication JSEV8 JSEProcess JSEUIButton JSEUILabel JSEUILineEdit JSEUIMenu JSEUITextEdit JSEUIWindow JSEUIMenuLeaf Main
 	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $(SRC_BASE)JSE.cpp -o $(BUILD_DIR)JSE.o
