@@ -30,6 +30,14 @@ How to build?
 How to run?
 --------------------
 
-**Windows** `JavaScriptExecutable.exe [app.js]`
+**Windows** 
 
-*Other platforms* `Not tested but should be the same.`
+`JavaScriptExecutable.exe app.js` or `double-click JavaScriptExecutable.exe`
+
+**Mac OS X**
+
+`./JavaScriptExecutable.app/Contents/MacOS/JavaScriptExecutable app.js` or `double-click JavaScriptExecutable.app`
+
+**Ubuntu**
+
+`./JavaScriptExecutable app.js` or `double-click JavaScriptExecutable`
