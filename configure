@@ -4,7 +4,8 @@ case "$OSTYPE" in
 	darwin*)
 		cp make/Makefile.mac ./Makefile
 		;;
-
+	linux-gnu*)
+		cp make/Makefile.linux ./Makefile
 	*)
 		echo "Makefile for current OS is not available yet."
 		;;
