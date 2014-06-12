@@ -1,5 +1,7 @@
 var w = new Window();
 
+w.alert('Warning: \nThis is not a functional calculator, it just exists as demonstration.');
+
 w.maximizeButton = false;
 
 w.minimumWidth = 400;
