@@ -12,7 +12,9 @@ https://www.imzcy.com/jse/
 News
 --------------------
 
-A new complete new design of JavaScriptExecutable that supports not only standard UI elements but also custom UI elements, disk IO and network IO is currently under development.
+A new completely new design of JavaScriptExecutable that supports not only standard UI elements but also custom UI elements, disk IO and network IO is currently under development.
+
+It will be updated to `develop` branch once complete.
 
 How to build?
 --------------------
