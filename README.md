@@ -9,6 +9,11 @@ There is no stable version yet. Download latest development build (Windows and M
 
 https://www.imzcy.com/jse/
 
+News
+--------------------
+
+A new complete new design of JavaScriptExecutable that supports not only standard UI elements but also custom UI elements, disk IO and network IO is currently under development.
+
 How to build?
 --------------------
 
