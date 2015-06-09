@@ -7,7 +7,7 @@ JavaScriptExecutable provides a environment for creating native GUI cross-platfo
 
 There is no stable version yet. Download latest development build (Windows and Mac) at
 
-https://www.imzcy.com/jse/
+https://www.imzcy.com/javascript-executable/
 
 News
 --------------------
